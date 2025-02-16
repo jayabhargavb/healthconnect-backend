@@ -1,15 +1,13 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return "HealthConnect Backend is Running!"
+@app.route('/ask', methods=['POST'])
+def ask():
+    data = request.get_json()
+    question = data.get("question", "")
+    response = {"answer": f"Received: {question}"}
+    return jsonify(response)
 
-@app.route('/ping')
-def ping():
-    return "Pong!"
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
